@@ -92,6 +92,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TableContent.xaml.cs">
+      <DependentUpon>TableContent.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,6 +107,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TableContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -132,6 +139,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icons\bookmark-black.png" />
+    <Resource Include="Assets\Icons\bookmark-white.png" />
+    <Resource Include="Assets\Icons\caution-black.png" />
+    <Resource Include="Assets\Icons\caution-white.png" />
+    <Resource Include="Assets\Icons\close-black.png" />
+    <Resource Include="Assets\Icons\close-white.png" />
+    <Resource Include="Assets\Icons\home-black.png" />
+    <Resource Include="Assets\Icons\home-white.png" />
+    <Resource Include="Assets\Icons\left-black.png" />
+    <Resource Include="Assets\Icons\left-white.png" />
+    <Resource Include="Assets\Icons\menu-black.png" />
+    <Resource Include="Assets\Icons\menu-white.png" />
+    <Resource Include="Assets\Icons\refresh-black.png" />
+    <Resource Include="Assets\Icons\refresh-white.png" />
+    <Resource Include="Assets\Icons\right-black.png" />
+    <Resource Include="Assets\Icons\right-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icons\search-black.png" />
+    <Resource Include="Assets\Icons\search-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icons\padlock-black.png" />
+    <Resource Include="Assets\Icons\padlock-white.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

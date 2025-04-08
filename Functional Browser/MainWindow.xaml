@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Functional_Browser"
         xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1024">
+        Title="Pasha-Browser-Ohyennyj-edition" Height="720" Width="1024" Background="#FF424B5B">
     <Grid>
-        <cef:ChromiumWebBrowser x:Name="Functional_Browser" Address="https://www.google.com" />
+        <local:TableContent x:Name="DefaultBrowser" Url="https://www.ebay.com" />
     </Grid>
 </Window>
