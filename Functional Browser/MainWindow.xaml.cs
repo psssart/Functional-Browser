@@ -17,11 +17,10 @@ using System.Windows.Shapes;
 
 namespace Functional_Browser
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly RoutedCommand CloseTabCommand = new RoutedCommand();
+
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             switch (msg)
@@ -139,6 +138,10 @@ namespace Functional_Browser
         {
             InitializeComponent();
 
+            // Привязка команды к обработчикам
+            CommandBinding closeTabBinding = new CommandBinding(CloseTabCommand, CloseTabCommand_Executed, CloseTabCommand_CanExecute);
+            this.CommandBindings.Add(closeTabBinding);
+
             SourceInitialized += (s, e) =>
             {
                 IntPtr handle = (new WindowInteropHelper(this)).Handle;
@@ -197,6 +200,83 @@ namespace Functional_Browser
                 DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
             }
 
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TabControl.SelectedItem is TabItem selectedItem)
+            {
+                if (selectedItem.Header is string header && header == "+")
+                {
+                    CreateNewTab();
+                }
+            }
+        }
+
+        private void CreateNewTab()
+        {
+            TabItem newTab = new TabItem();
+            var tableContent = new TableContent();
+            // New Tab Default Url
+            tableContent.Url = "https://www.bing.com";
+            newTab.Content = tableContent;
+            // Link Header to TableContent. DataTemplate will take its Title.
+            newTab.Header = tableContent;
+            newTab.HeaderTemplate = (DataTemplate)FindResource("TabHeaderTemplate");
+
+            // Insert new tab before tab with "+" (AddTabItem)
+            int addTabIndex = TabControl.Items.IndexOf(AddTabItem);
+            TabControl.Items.Insert(addTabIndex, newTab);
+            TabControl.SelectedItem = newTab;
+        }
+
+        private void CloseTabCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (e.Parameter is TabItem tabItem)
+            {
+                // Если Header – строка "+" (специальная вкладка для создания новой), запрещаем выполнение
+                if (tabItem.Header is string header && header == "+")
+                {
+                    e.CanExecute = false;
+                    return;
+                }
+
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        // Обработчик выполнения команды закрытия вкладки
+        private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Parameter is TabItem tabItem)
+            {
+                int removedIndex = TabControl.Items.IndexOf(tabItem);
+                TabControl.Items.Remove(tabItem);
+
+                int count = TabControl.Items.Count;
+                // Если после удаления существует вкладка на той же позиции — выбираем её
+                if (removedIndex < count)
+                {
+                    var nextTab = TabControl.Items[removedIndex] as TabItem;
+                    if (nextTab != null && nextTab.Header is string nextHeader && nextHeader == "+")
+                    {
+                        if (removedIndex - 1 >= 0)
+                            TabControl.SelectedIndex = removedIndex - 1;
+                    }
+                    else
+                    {
+                        TabControl.SelectedIndex = removedIndex;
+                    }
+                }
+                else if (removedIndex - 1 >= 0)
+                {
+                    TabControl.SelectedIndex = removedIndex - 1;
+                }
+            }
         }
     }
 }

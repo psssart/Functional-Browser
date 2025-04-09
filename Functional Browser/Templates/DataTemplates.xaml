@@ -1,6 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-        <DataTemplate x:Key="TabHeaderTemplate">
+﻿<ResourceDictionary x:Class="Functional_Browser.TabHeaderResources"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Functional_Browser">
+    <DataTemplate x:Key="TabHeaderTemplate">
         <Grid Height="32" Width="200">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="25"/>
@@ -9,9 +11,9 @@
             </Grid.ColumnDefinitions>
 
             <Image Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBlock Text="New Document" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" FontSize="14" />
-            <Button Content="x" Grid.Column="2" Foreground="#FF2F2F2F" Padding="0" Width="16" Height="16" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-
+            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" FontSize="14" />
+            <Button Content="x" Grid.Column="2" Foreground="#FF2F2F2F" Padding="0" Width="16" Height="16" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    Command="{x:Static local:MainWindow.CloseTabCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabItem}}}" />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

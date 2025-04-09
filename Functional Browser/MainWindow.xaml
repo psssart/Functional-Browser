@@ -39,20 +39,11 @@
             </StackPanel>
         </Grid>
 
-        <TabControl WindowChrome.IsHitTestVisibleInChrome="True" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="2">
-            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
+        <TabControl WindowChrome.IsHitTestVisibleInChrome="True" SelectionChanged="TabControl_SelectionChanged" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="2">
+            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}" Header="{Binding Content, RelativeSource={RelativeSource Self}}">
                 <local:TableContent/>
             </TabItem>
-            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
-                <local:TableContent/>
-            </TabItem>
-            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
-                <local:TableContent/>
-            </TabItem>
-            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
-                <local:TableContent/>
-            </TabItem>
+            <TabItem x:Name="AddTabItem" Header="+" />
         </TabControl>
-        <!--<local:TableContent x:Name="DefaultBrowser" Url="https://www.ebay.com" />-->
     </Grid>
 </Window>

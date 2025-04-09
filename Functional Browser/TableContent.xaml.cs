@@ -15,31 +15,40 @@ using System.Windows.Shapes;
 
 namespace Functional_Browser
 {
-    /// <summary>
-    /// Логика взаимодействия для TableContent.xaml
-    /// </summary>
     public partial class TableContent : UserControl
     {
         public TableContent()
         {
             InitializeComponent();
         }
-
-
-
         public string Url
         {
             get { return (string)GetValue(UrlProperty); }
             set { SetValue(UrlProperty, value); }
         }
-
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UrlProperty =
             DependencyProperty.Register("Url", typeof(string), typeof(TableContent), new PropertyMetadata("https://www.bing.com"));
 
+        // Title property for the Tab name
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(TableContent), new PropertyMetadata("New Document"));
+
         private void Browser_Initialized(object sender, EventArgs e)
         {
             Browser.Address = Url;
+            Browser.TitleChanged += (s, args) =>
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    Title = args.NewValue as string;
+                });
+            };
         }
     }
 }
