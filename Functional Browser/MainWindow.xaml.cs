@@ -232,50 +232,45 @@ namespace Functional_Browser
 
         private void CloseTabCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if (e.Parameter is TabItem tabItem)
-            {
-                // Если Header – строка "+" (специальная вкладка для создания новой), запрещаем выполнение
-                if (tabItem.Header is string header && header == "+")
-                {
-                    e.CanExecute = false;
-                    return;
-                }
-
-                e.CanExecute = true;
-            }
-            else
-            {
-                e.CanExecute = false;
-            }
+            e.CanExecute = e.Parameter is TabItem tabItem &&
+                           !(tabItem.Header is string header && header == "+");
         }
 
-        // Обработчик выполнения команды закрытия вкладки
         private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Parameter is TabItem tabItem)
             {
                 int removedIndex = TabControl.Items.IndexOf(tabItem);
-                TabControl.Items.Remove(tabItem);
+                bool wasSelected = TabControl.SelectedItem == tabItem;
 
-                int count = TabControl.Items.Count;
-                // Если после удаления существует вкладка на той же позиции — выбираем её
-                if (removedIndex < count)
+                if (tabItem.Header is string header && header == "+")
+                    return;
+
+                if (wasSelected)
                 {
-                    var nextTab = TabControl.Items[removedIndex] as TabItem;
-                    if (nextTab != null && nextTab.Header is string nextHeader && nextHeader == "+")
+                    if (removedIndex - 1 >= 0)
                     {
-                        if (removedIndex - 1 >= 0)
-                            TabControl.SelectedIndex = removedIndex - 1;
+                        TabControl.SelectedIndex = removedIndex - 1;
                     }
                     else
                     {
-                        TabControl.SelectedIndex = removedIndex;
+                        MessageBoxResult result = MessageBox.Show("Close Browser?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            this.Close();
+                            return;
+                        }
+                        else if (TabControl.Items.Count > 1)
+                        {
+                            TabControl.SelectedIndex = 1;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                 }
-                else if (removedIndex - 1 >= 0)
-                {
-                    TabControl.SelectedIndex = removedIndex - 1;
-                }
+                TabControl.Items.Remove(tabItem);
             }
         }
     }
