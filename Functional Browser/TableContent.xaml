@@ -28,25 +28,25 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Viewbox Width="20" Height="20">
-                            <Image Source="Assets/Icons/left-black.png" />
+                            <Path Data="{StaticResource BackBtnIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button>
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Viewbox Width="20" Height="20">
-                            <Image Source="Assets/Icons/right-black.png" />
+                            <Path Data="{StaticResource ForwardBtnIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Viewbox Width="20" Height="20">
-                            <Image Source="Assets/Icons/bookmark-black.png" />
+                            <Path Data="{StaticResource BookmarkIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button>
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Button.Content>
                             <Viewbox Width="20" Height="20">
-                                <Image Source="Assets/Icons/home-black.png" />
+                                <Path Data="{StaticResource HomeIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                             </Viewbox>
                         </Button.Content>
                     </Button>
@@ -59,7 +59,7 @@
             </Border>
             <Button Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,15,0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
                 <Viewbox>
-                    <Image Source="/Assets/Icons/search-black.png" />
+                    <Path Data="{StaticResource SearchIcon}" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                 </Viewbox>
             </Button>
             <Rectangle Margin="5" Grid.Column="1" Height="31" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" StrokeThickness="1" Stroke="#FF2F2F2F" />
@@ -67,7 +67,7 @@
                 <Button Width="20" Height="20" Padding="0" Margin="5,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
                     <Button.Content>
                         <Viewbox Width="16" Height="16">
-                            <Image Source="/Assets/Icons/padlock-black.png" />
+                            <Path Data="{StaticResource PadlockIcon}" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button.Content>
                 </Button>
@@ -80,7 +80,7 @@
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Button.Content>
                             <Viewbox Width="20" Height="20">
-                                <Image Source="Assets/Icons/refresh-black.png" />
+                                <Path Data="{StaticResource RefreshIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                             </Viewbox>
                         </Button.Content>
                     </Button>
@@ -90,7 +90,7 @@
                     <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Button.Content>
                             <Viewbox Width="20" Height="20">
-                                <Image Source="Assets/Icons/menu-black.png" />
+                                <Path Data="{StaticResource MenuIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                             </Viewbox>
                         </Button.Content>
                     </Button>
