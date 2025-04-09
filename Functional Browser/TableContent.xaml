@@ -84,6 +84,16 @@
                             </Viewbox>
                         </Button.Content>
                     </Button>
+
+                    <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0"
+                    BorderBrush="Transparent" BorderThickness="0" 
+                            Background="Transparent" Visibility="Collapsed">
+                        <Button.Content>
+                            <Viewbox Width="20" Height="20">
+                                <Path Data="{StaticResource CloseIcon}" Fill="Black" />
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">

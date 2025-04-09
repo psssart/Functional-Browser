@@ -6,8 +6,53 @@
         xmlns:local="clr-namespace:Functional_Browser"
         xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="Pasha-Browser-Ohyennyj-edition" Height="720" Width="1024" Background="#FF424B5B">
+        Title="Pavel-Browser-edition" Height="720" Width="1024" Background="#FF424B5B" WindowStyle="None" AllowsTransparency="True" 
+        WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="55" />
+    </WindowChrome.WindowChrome>
     <Grid>
-        <local:TableContent x:Name="DefaultBrowser" Url="https://www.ebay.com" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Panel.ZIndex="1024">
+            <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button Style="{DynamicResource CaptionBtns}" x:Name="MinimizeButton" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
+                    <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Data="{StaticResource MinimizeBtnIcon}" Fill="Black" />
+                    </Viewbox>
+                </Button>
+
+                <Button Style="{DynamicResource CaptionBtns}" x:Name="MaximizeButton" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
+                    <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Data="{StaticResource MaximizeBtnIcon}" Fill="Black" />
+                    </Viewbox>
+                </Button>
+
+                <Button Style="{DynamicResource CloseBtnStyle}" x:Name="CloseBtn" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
+                    <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Data="{StaticResource CloseIcon}" Fill="Black" />
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <TabControl WindowChrome.IsHitTestVisibleInChrome="True" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="2">
+            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
+                <local:TableContent/>
+            </TabItem>
+            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
+                <local:TableContent/>
+            </TabItem>
+            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
+                <local:TableContent/>
+            </TabItem>
+            <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}">
+                <local:TableContent/>
+            </TabItem>
+        </TabControl>
+        <!--<local:TableContent x:Name="DefaultBrowser" Url="https://www.ebay.com" />-->
     </Grid>
 </Window>
