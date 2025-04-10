@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomLifeSpanHandler.cs" />
     <Compile Include="TableContent.xaml.cs">
       <DependentUpon>TableContent.xaml</DependentUpon>
     </Compile>

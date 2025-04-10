@@ -55,7 +55,7 @@
 
             <!--Centre Column-->
             <Border Grid.Column="1" Margin="5,12" Padding="120,0,33,0" Background="#FF201F21" BorderBrush="#FF2F2F2F" BorderThickness="1">
-                <TextBox Padding="5" VerticalAlignment="Center" Foreground="White" Background="Transparent" BorderThickness="0" />
+                <TextBox x:Name="AddressBox" KeyDown="AddressBox_KeyDown" Padding="5" VerticalAlignment="Center" CaretBrush="White" Foreground="White" Background="Transparent" BorderThickness="0" />
             </Border>
             <Button Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,15,0" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
                 <Viewbox>
@@ -67,11 +67,11 @@
                 <Button Width="20" Height="20" Padding="0" Margin="5,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent">
                     <Button.Content>
                         <Viewbox Width="16" Height="16">
-                            <Path Data="{StaticResource PadlockIcon}" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" />
+                            <Path x:Name="SecureStatusIcon" Data="{StaticResource PadlockIcon}" Opacity="0.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="White" />
                         </Viewbox>
                     </Button.Content>
                 </Button>
-                <TextBlock Text="Secure" Opacity="0.5" VerticalAlignment="Center" Foreground="White" />
+                <TextBlock x:Name="SecureStatusTextBlock" Text="Secure" Opacity="0.5" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
             
             <!--Right Column-->

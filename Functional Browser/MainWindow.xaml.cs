@@ -138,7 +138,7 @@ namespace Functional_Browser
         {
             InitializeComponent();
 
-            // Привязка команды к обработчикам
+            // Binding a command to handlers
             CommandBinding closeTabBinding = new CommandBinding(CloseTabCommand, CloseTabCommand_Executed, CloseTabCommand_CanExecute);
             this.CommandBindings.Add(closeTabBinding);
 
@@ -213,18 +213,18 @@ namespace Functional_Browser
             }
         }
 
-        private void CreateNewTab()
+        public void CreateNewTab(string url = "https://www.bing.com")
         {
             TabItem newTab = new TabItem();
-            var tableContent = new TableContent();
-            // New Tab Default Url
-            tableContent.Url = "https://www.bing.com";
+            var tableContent = new TableContent
+            {
+                Url = url
+            };
             newTab.Content = tableContent;
-            // Link Header to TableContent. DataTemplate will take its Title.
             newTab.Header = tableContent;
             newTab.HeaderTemplate = (DataTemplate)FindResource("TabHeaderTemplate");
 
-            // Insert new tab before tab with "+" (AddTabItem)
+            // It is assumed that there is a special tab (AddTabItem)
             int addTabIndex = TabControl.Items.IndexOf(AddTabItem);
             TabControl.Items.Insert(addTabIndex, newTab);
             TabControl.SelectedItem = newTab;
