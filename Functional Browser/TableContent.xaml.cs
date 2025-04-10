@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CefSharp;
 using CefSharp.Wpf;
 
 namespace Functional_Browser
@@ -130,6 +131,28 @@ namespace Functional_Browser
                 Url = input;
                 e.Handled = true;
             }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            if (Browser.CanGoBack)
+                Browser.Back();
+        }
+
+        private void btnForward_Click(object sender, RoutedEventArgs e)
+        {
+            if (Browser.CanGoForward)
+                Browser.Forward();
+        }
+
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            Browser.Reload();
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            Browser.Address = "https://www.bing.com";
         }
     }
 }

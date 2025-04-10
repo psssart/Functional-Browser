@@ -26,12 +26,12 @@
             <!--Left Column-->
             <Grid>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
+                    <Button x:Name="btnBack" Click="btnBack_Click" Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Viewbox Width="20" Height="20">
                             <Path Data="{StaticResource BackBtnIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button>
-                    <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
+                    <Button x:Name="btnForward" Click="btnForward_Click" Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Viewbox Width="20" Height="20">
                             <Path Data="{StaticResource ForwardBtnIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
@@ -43,7 +43,7 @@
                             <Path Data="{StaticResource BookmarkIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
                         </Viewbox>
                     </Button>
-                    <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
+                    <Button x:Name="btnHome" Click="btnHome_Click" Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Button.Content>
                             <Viewbox Width="20" Height="20">
                                 <Path Data="{StaticResource HomeIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
@@ -77,7 +77,7 @@
             <!--Right Column-->
             <Grid Grid.Column="2">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Button Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
+                    <Button x:Name="btnReload" Click="btnReload_Click" Height="25" Width="25" Padding="0" Margin="0,0,5,0" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" >
                         <Button.Content>
                             <Viewbox Width="20" Height="20">
                                 <Path Data="{StaticResource RefreshIcon}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Black" />
