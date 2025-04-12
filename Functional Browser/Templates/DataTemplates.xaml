@@ -11,8 +11,8 @@
             </Grid.ColumnDefinitions>
 
             <Image Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" FontSize="14" />
-            <Button Content="x" Grid.Column="2" Foreground="#FF2F2F2F" Padding="0" Width="16" Height="16" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
+            <TextBlock Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" FontSize="14" Foreground="{DynamicResource TextForeground}" />
+            <Button Content="x" Grid.Column="2" Foreground="{DynamicResource TextForeground}" Padding="0" Width="16" Height="16" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" 
                     Command="{x:Static local:MainWindow.CloseTabCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabItem}}}" />
         </Grid>
     </DataTemplate>

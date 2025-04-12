@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,6 +21,8 @@ namespace Functional_Browser
 {
     public partial class TableContent : UserControl
     {
+        public string SearchBar { get; set; } = "Top";
+
         public TableContent()
         {
             InitializeComponent();
@@ -58,6 +61,9 @@ namespace Functional_Browser
             DependencyProperty.Register("Title", typeof(string), typeof(TableContent), new PropertyMetadata("New Document"));
         #endregion
 
+        /// <summary>
+        /// Handle browser initialization.
+        /// </summary>
         private void Browser_Initialized(object sender, EventArgs e)
         {
             Browser.Address = Url;
@@ -70,6 +76,9 @@ namespace Functional_Browser
             };
         }
 
+        /// <summary>
+        /// Handle browser address changing.
+        /// </summary>
         private void Browser_AddressChanged(object sender, EventArgs e)
         {
             string newAddress = Browser.Address;
@@ -106,6 +115,9 @@ namespace Functional_Browser
             });
         }
 
+        /// <summary>
+        /// Handle keys clicks in address box.
+        /// </summary>
         private void AddressBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -133,26 +145,121 @@ namespace Functional_Browser
             }
         }
 
+        /// <summary>
+        /// Handle back button click.
+        /// </summary>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             if (Browser.CanGoBack)
                 Browser.Back();
         }
 
+        /// <summary>
+        /// Handle forward button click.
+        /// </summary>
         private void btnForward_Click(object sender, RoutedEventArgs e)
         {
             if (Browser.CanGoForward)
                 Browser.Forward();
         }
 
+        /// <summary>
+        /// Handle reload button click.
+        /// </summary>
         private void btnReload_Click(object sender, RoutedEventArgs e)
         {
             Browser.Reload();
         }
 
+        /// <summary>
+        /// Handle home button click.
+        /// </summary>
         private void btnHome_Click(object sender, RoutedEventArgs e)
         {
             Browser.Address = "https://www.bing.com";
+        }
+
+        /// <summary>
+        /// Handle menu button click.
+        /// </summary>
+        private void btnShowMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // Set custom position for Popup
+            popupMenu.Placement = PlacementMode.Custom;
+            popupMenu.PlacementTarget = btnShowMenu;
+            popupMenu.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(PlacePopup);
+            popupMenu.IsOpen = true;
+        }
+
+        /// <summary>
+        /// Custom method for Popup positioning.
+        /// </summary>
+        private CustomPopupPlacement[] PlacePopup(Size popupSize, Size targetSize, Point offset)
+        {
+            double x = -popupSize.Width;
+            double y = 0;
+
+            if (SearchBar.Equals("Top", StringComparison.OrdinalIgnoreCase))
+            {
+                y = targetSize.Height;
+            }
+            else if (SearchBar.Equals("Bottom", StringComparison.OrdinalIgnoreCase))
+            {
+                y = -popupSize.Height;
+            }
+
+            CustomPopupPlacement placement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+            return new CustomPopupPlacement[] { placement };
+        }
+
+        /// <summary>
+        /// Switch app color theme.
+        /// </summary>
+        private void btnSwitchTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+
+            var currentThemeDictionary = mergedDictionaries.FirstOrDefault(dict =>
+                 dict.Contains("IsThemeDictionary") && (bool)dict["IsThemeDictionary"] == true);
+
+            if (currentThemeDictionary != null && currentThemeDictionary.Source != null)
+            {
+                string source = currentThemeDictionary.Source.OriginalString.ToLowerInvariant();
+
+                if (source.EndsWith("darktheme.xaml"))
+                {
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/LightTheme.xaml", UriKind.Relative)
+                    });
+                }
+                else if (source.EndsWith("lighttheme.xaml"))
+                {
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                    });
+                }
+                else
+                {
+                    // Default behavior - Dark Theme
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                    });
+                }
+            }
+            else
+            {
+                // Default behavior - Dark Theme
+                mergedDictionaries.Add(new ResourceDictionary
+                {
+                    Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                });
+            }
         }
     }
 }

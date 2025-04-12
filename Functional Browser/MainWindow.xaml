@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:Functional_Browser"
         xmlns:cef="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
         mc:Ignorable="d"
-        Title="Pavel-Browser-edition" Height="720" Width="1024" Background="#FF424B5B" WindowStyle="None" AllowsTransparency="True" 
-        WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged">
+        Title="Pavel-Browser-edition" Height="720" Width="1024" Background="{DynamicResource AppBackground}" WindowStyle="None" AllowsTransparency="False" 
+        WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged" ResizeMode="CanResize">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="55" />
+        <WindowChrome CaptionHeight="55" ResizeBorderThickness="8" />
     </WindowChrome.WindowChrome>
-    <Grid>
+    <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="55"/>
             <RowDefinition />
@@ -21,29 +21,29 @@
             <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <Button Style="{DynamicResource CaptionBtns}" x:Name="MinimizeButton" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
                     <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Path Data="{StaticResource MinimizeBtnIcon}" Fill="Black" />
+                        <Path Data="{StaticResource MinimizeBtnIcon}" Fill="{DynamicResource IconBrush}" />
                     </Viewbox>
                 </Button>
 
                 <Button Style="{DynamicResource CaptionBtns}" x:Name="MaximizeButton" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
                     <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Path Data="{StaticResource MaximizeBtnIcon}" Fill="Black" />
+                        <Path Data="{StaticResource MaximizeBtnIcon}" Fill="{DynamicResource IconBrush}" />
                     </Viewbox>
                 </Button>
 
                 <Button Style="{DynamicResource CloseBtnStyle}" x:Name="CloseBtn" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
                     <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Path Data="{StaticResource CloseIcon}" Fill="Black" />
+                        <Path Data="{StaticResource CloseIcon}" Fill="{DynamicResource IconBrush}" />
                     </Viewbox>
                 </Button>
             </StackPanel>
         </Grid>
 
-        <TabControl WindowChrome.IsHitTestVisibleInChrome="True" SelectionChanged="TabControl_SelectionChanged" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="2">
+        <TabControl MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowChrome.IsHitTestVisibleInChrome="True" SelectionChanged="TabControl_SelectionChanged" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="2">
             <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}" Header="{Binding Content, RelativeSource={RelativeSource Self}}">
                 <local:TableContent/>
             </TabItem>
-            <TabItem x:Name="AddTabItem" Header="+" />
+            <TabItem x:Name="AddTabItem" Header="+" Foreground="{DynamicResource TextForeground}" />
         </TabControl>
     </Grid>
 </Window>
