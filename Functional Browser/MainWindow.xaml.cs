@@ -224,12 +224,12 @@ namespace Functional_Browser
         public void CreateNewTab(string url = "https://www.bing.com")
         {
             TabItem newTab = new TabItem();
-            var tableContent = new TableContent
+            var tabContent = new TabContent
             {
                 Url = url
             };
-            newTab.Content = tableContent;
-            newTab.Header = tableContent;
+            newTab.Content = tabContent;
+            newTab.Header = tabContent;
             newTab.HeaderTemplate = (DataTemplate)FindResource("TabHeaderTemplate");
 
             // It is assumed that there is a special tab (AddTabItem)

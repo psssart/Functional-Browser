@@ -19,11 +19,11 @@ using CefSharp.Wpf;
 
 namespace Functional_Browser
 {
-    public partial class TableContent : UserControl
+    public partial class TabContent : UserControl
     {
         public string SearchBar { get; set; } = "Top";
 
-        public TableContent()
+        public TabContent()
         {
             InitializeComponent();
             Browser.LifeSpanHandler = new CustomLifeSpanHandler();
@@ -39,11 +39,11 @@ namespace Functional_Browser
         }
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UrlProperty =
-            DependencyProperty.Register("Url", typeof(string), typeof(TableContent), new PropertyMetadata("https://www.bing.com", OnUrlChanged));
+            DependencyProperty.Register("Url", typeof(string), typeof(TabContent), new PropertyMetadata("https://www.bing.com", OnUrlChanged));
 
         private static void OnUrlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as TableContent;
+            var control = d as TabContent;
             if (control != null && control.Browser != null)
             {
                 control.Browser.Address = e.NewValue as string;
@@ -58,7 +58,7 @@ namespace Functional_Browser
             set { SetValue(TitleProperty, value); }
         }
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(TableContent), new PropertyMetadata("New Document"));
+            DependencyProperty.Register("Title", typeof(string), typeof(TabContent), new PropertyMetadata("New Document"));
         #endregion
 
         /// <summary>

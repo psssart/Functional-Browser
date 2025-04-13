@@ -98,8 +98,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CustomLifeSpanHandler.cs" />
-    <Compile Include="TableContent.xaml.cs">
-      <DependentUpon>TableContent.xaml</DependentUpon>
+    <Compile Include="TabContent.xaml.cs">
+      <DependentUpon>TabContent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Templates\DataTemplates.xaml.cs">
       <DependentUpon>DataTemplates.xaml</DependentUpon>
@@ -128,7 +128,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TableContent.xaml">
+    <Page Include="TabContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
