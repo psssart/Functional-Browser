@@ -97,12 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomDisplayHandler.cs" />
     <Compile Include="CustomLifeSpanHandler.cs" />
     <Compile Include="TabContent.xaml.cs">
       <DependentUpon>TabContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Templates\DataTemplates.xaml.cs">
-      <DependentUpon>DataTemplates.xaml</DependentUpon>
     </Compile>
     <Page Include="Assets\Icons\SVG\Icons.xaml">
       <SubType>Designer</SubType>

@@ -30,9 +30,11 @@
     </LinearGradientBrush>
     <SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#FFB3B3B3"/>
 
-    <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FFF0F0F0"/>
+    <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FF999999"/>
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#FFB3B3B3"/>
 
+    <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#FF999999"/>
+    <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="Black"/>
     <!-- Redefining buttons -->
     <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="#FFCCCCCC"/>

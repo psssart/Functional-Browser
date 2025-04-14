@@ -1,36 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CefSharp;
 using CefSharp.Wpf;
 
 namespace Functional_Browser
 {
     public partial class TabContent : UserControl
     {
-        public string SearchBar { get; set; } = "Top";
-
         public TabContent()
         {
             InitializeComponent();
             Browser.LifeSpanHandler = new CustomLifeSpanHandler();
+            Browser.DisplayHandler = new CustomDisplayHandler();
+            Browser.Tag = this;
             DependencyPropertyDescriptor.FromProperty(ChromiumWebBrowser.AddressProperty, typeof(ChromiumWebBrowser))
             .AddValueChanged(Browser, Browser_AddressChanged);
         }
 
+        /// <summary>
+        /// Web-page url.
+        /// </summary>
         #region Dependency Property: Url
         public string Url
         {
@@ -51,6 +42,9 @@ namespace Functional_Browser
         }
         #endregion
 
+        /// <summary>
+        /// Web-page title.
+        /// </summary>
         #region Dependency Property: Title
         public string Title
         {
@@ -60,6 +54,28 @@ namespace Functional_Browser
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(TabContent), new PropertyMetadata("New Document"));
         #endregion
+
+        /// <summary>
+        /// Icon (favicon) of web-page.
+        /// </summary>
+        #region Dependency Property: Icon
+        public ImageSource Icon
+        {
+            get { return (ImageSource)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
+        }
+
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(ImageSource), typeof(TabContent), new PropertyMetadata(null));
+        #endregion
+
+        /// <summary>
+        /// Update web-page icon.
+        /// </summary>
+        public void UpdateIcon(ImageSource icon)
+        {
+            Icon = icon;
+        }
 
         /// <summary>
         /// Handle browser initialization.
@@ -84,6 +100,9 @@ namespace Functional_Browser
             Url = Browser.Address;
         }
 
+        /// <summary>
+        /// Set margin for web-page space.
+        /// </summary>
         public void UpdateContentMargin(double topMargin)
         {
             ContentGrid.Margin = new Thickness(0, topMargin, 0, 0);

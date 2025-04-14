@@ -1,29 +1,19 @@
 ﻿using CefSharp;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Functional_Browser
 {
     public partial class MainWindow : Window
     {
         public static readonly RoutedCommand CloseTabCommand = new RoutedCommand();
-        private bool isToolbarAtBottom = false;
 
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -180,8 +170,6 @@ namespace Functional_Browser
                                                      ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
                                                      uint cbAttribute);
 
-
-
         public enum DWMWINDOWATTRIBUTE
         {
             DWMWA_WINDOW_CORNER_PREFERENCE = 33
@@ -195,6 +183,9 @@ namespace Functional_Browser
             DWMWCP_ROUNDSMALL = 3
         }
 
+        /// <summary>
+        /// Handle change of window state.
+        /// </summary>
         private void Window_StateChanged(object sender, EventArgs e)
         {
             IntPtr hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
@@ -216,6 +207,9 @@ namespace Functional_Browser
 
         }
 
+        /// <summary>
+        /// Drag window with click of left mouse button.
+        /// </summary>
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ButtonState == MouseButtonState.Pressed)
@@ -224,6 +218,9 @@ namespace Functional_Browser
             }
         }
 
+        /// <summary>
+        /// Handle change of active tab
+        /// </summary>
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TabControl.SelectedItem is TabItem selectedItem)
@@ -237,6 +234,9 @@ namespace Functional_Browser
             UpdateGlobalAddressBar();
         }
 
+        /// <summary>
+        /// Method for creating a new tab.
+        /// </summary>
         public void CreateNewTab(string url = "https://www.bing.com")
         {
             TabItem newTab = new TabItem();
@@ -254,12 +254,18 @@ namespace Functional_Browser
             TabControl.SelectedItem = newTab;
         }
 
+        /// <summary>
+        /// Check if can close the tab
+        /// </summary>
         private void CloseTabCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = e.Parameter is TabItem tabItem &&
                            !(tabItem.Header is string header && header == "+");
         }
 
+        /// <summary>
+        /// Handle closing the tab
+        /// </summary>
         private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Parameter is TabItem tabItem)
@@ -298,6 +304,9 @@ namespace Functional_Browser
             }
         }
 
+        /// <summary>
+        /// Get TabContent of current tab
+        /// </summary>
         private TabContent GetCurrentTabContent()
         {
             if (TabControl.SelectedItem is TabItem selectedTab)
@@ -307,6 +316,9 @@ namespace Functional_Browser
             return null;
         }
 
+        /// <summary>
+        /// Handle keys pressing in address box
+        /// </summary>
         private void UpdateGlobalAddressBar()
         {
             var currentTab = GetCurrentTabContent();
@@ -320,6 +332,9 @@ namespace Functional_Browser
             }
         }
 
+        /// <summary>
+        /// Handle keys pressing in address box
+        /// </summary>
         private void AddressBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -328,11 +343,9 @@ namespace Functional_Browser
                 if (string.IsNullOrEmpty(input))
                     return;
 
-                // Простейшая нормализация ввода
                 if (!input.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
                     !input.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Если строка содержит пробелы или нет точки – считаем, что это поисковый запрос
                     if (input.Contains(" ") || !input.Contains("."))
                     {
                         input = $"https://www.google.com/search?q={Uri.EscapeDataString(input)}";
@@ -354,7 +367,9 @@ namespace Functional_Browser
             }
         }
 
-        // Кнопки навигации — делегируют действие активной вкладке.
+        /// <summary>
+        /// Navigation buttons - delegate the action to the active tab.
+        /// </summary>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             var currentTab = GetCurrentTabContent();
@@ -381,22 +396,26 @@ namespace Functional_Browser
                 currentTab.Url = "https://www.bing.com";
             }
         }
-        // Переключение расположения панели инструментов.
+
+        /// <summary>
+        /// Determine toolbar position( top or bottom ).
+        /// </summary>
+        private bool isToolbarAtBottom = false;
+        /// <summary>
+        /// Switch the location of the toolbar.
+        /// </summary>
         private void btnTogglePosition_Click(object sender, RoutedEventArgs e)
         {
             isToolbarAtBottom = !isToolbarAtBottom;
             if (isToolbarAtBottom)
             {
-                // Устанавливаем панель в нижнюю строку.
                 Grid.SetRow(GlobalToolbar, 2);
                 Grid.SetRowSpan(TabControl, 2);
                 RootGrid.RowDefinitions[2].Height = new GridLength(60);
                 RootGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
-                // При необходимости можно менять высоту строк: например, фиксированная высота для панели и оставшаяся часть — для контента.
             }
             else
             {
-                // Устанавливаем панель в верхнюю строку.
                 Grid.SetRow(GlobalToolbar, 1);
                 Grid.SetRowSpan(TabControl, 3);
                 RootGrid.RowDefinitions[1].Height = new GridLength(60);
@@ -478,6 +497,9 @@ namespace Functional_Browser
             }
         }
 
+        /// <summary>
+        /// Handle click of menu button.
+        /// </summary>
         private void btnShowMenu_Click(object sender, RoutedEventArgs e)
         {
             // Set custom position for Popup
@@ -487,6 +509,9 @@ namespace Functional_Browser
             popupMenu.IsOpen = true;
         }
 
+        /// <summary>
+        /// Set correct margin for current tab content.
+        /// </summary>
         private void updateCurrentTabMargin(TabItem tabItem = null)
         {
             TabContent activeTabContent;

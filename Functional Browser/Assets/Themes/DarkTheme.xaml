@@ -33,6 +33,8 @@
     <SolidColorBrush x:Key="TabItem.Selected.Background" Color="#FF151515"/>
     <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#FF232323"/>
 
+    <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#FF676767"/>
+    <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="White"/>
     <!-- Redefining buttons -->
     <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
     <SolidColorBrush x:Key="Button.Static.Border" Color="#FF2F2F2F"/>

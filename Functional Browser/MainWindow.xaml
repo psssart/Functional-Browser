@@ -18,6 +18,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <!--Window control bar-->
         <Grid Panel.ZIndex="1024">
             <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <Button Style="{DynamicResource CaptionBtns}" x:Name="MinimizeButton" Width="32" Height="32" Background="Transparent" BorderBrush="Transparent" Padding="0">
@@ -40,6 +41,7 @@
             </StackPanel>
         </Grid>
 
+        <!--Browser main tool bar-->
         <Grid x:Name="GlobalToolbar" Grid.Row="1" Panel.ZIndex="1024">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -134,6 +136,8 @@
                 </StackPanel>
             </Grid>
         </Grid>
+        
+        <!--Menu popup-->
         <Popup x:Name="popupMenu" StaysOpen="False" AllowsTransparency="True">
             <Border Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="5">
                 <StackPanel Margin="5">
@@ -143,6 +147,7 @@
             </Border>
         </Popup>
 
+        <!--Tabs and web-page content-->
         <TabControl MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowChrome.IsHitTestVisibleInChrome="True" SelectionChanged="TabControl_SelectionChanged" x:Name="TabControl" Background="Transparent" BorderThickness="0" Grid.Row="0" Grid.RowSpan="3">
             <TabItem HeaderTemplate="{DynamicResource TabHeaderTemplate}" Header="{Binding Content, RelativeSource={RelativeSource Self}}">
                 <local:TabContent/>
