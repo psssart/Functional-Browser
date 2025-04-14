@@ -1,11 +1,14 @@
-﻿using System;
+﻿using CefSharp;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -20,6 +23,7 @@ namespace Functional_Browser
     public partial class MainWindow : Window
     {
         public static readonly RoutedCommand CloseTabCommand = new RoutedCommand();
+        private bool isToolbarAtBottom = false;
 
         private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -158,6 +162,16 @@ namespace Functional_Browser
             var preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
 
             DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
+            UpdateGlobalAddressBar();
+            // Resize TabContent window with delay
+            var timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(200);
+            timer.Tick += (s, args) =>
+            {
+                timer.Stop();
+                updateCurrentTabMargin();
+            };
+            timer.Start();
         }
 
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
@@ -218,7 +232,9 @@ namespace Functional_Browser
                 {
                     CreateNewTab();
                 }
+                updateCurrentTabMargin(selectedItem);
             }
+            UpdateGlobalAddressBar();
         }
 
         public void CreateNewTab(string url = "https://www.bing.com")
@@ -280,6 +296,217 @@ namespace Functional_Browser
                 }
                 TabControl.Items.Remove(tabItem);
             }
+        }
+
+        private TabContent GetCurrentTabContent()
+        {
+            if (TabControl.SelectedItem is TabItem selectedTab)
+            {
+                return selectedTab.Content as TabContent;
+            }
+            return null;
+        }
+
+        private void UpdateGlobalAddressBar()
+        {
+            var currentTab = GetCurrentTabContent();
+            if (currentTab != null)
+            {
+                AddressBox.Text = currentTab.Url;
+            }
+            else
+            {
+                AddressBox.Text = "";
+            }
+        }
+
+        private void AddressBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var input = AddressBox.Text.Trim();
+                if (string.IsNullOrEmpty(input))
+                    return;
+
+                // Простейшая нормализация ввода
+                if (!input.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                    !input.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Если строка содержит пробелы или нет точки – считаем, что это поисковый запрос
+                    if (input.Contains(" ") || !input.Contains("."))
+                    {
+                        input = $"https://www.google.com/search?q={Uri.EscapeDataString(input)}";
+                    }
+                    else
+                    {
+                        input = "http://" + input;
+                    }
+                }
+
+                var currentTab = GetCurrentTabContent();
+                if (currentTab != null)
+                {
+                    currentTab.Browser.Load(input);
+                    currentTab.Url = input;
+                }
+
+                e.Handled = true;
+            }
+        }
+
+        // Кнопки навигации — делегируют действие активной вкладке.
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            var currentTab = GetCurrentTabContent();
+            if (currentTab?.Browser?.CanGoBack == true)
+                currentTab.Browser.Back();
+        }
+        private void btnForward_Click(object sender, RoutedEventArgs e)
+        {
+            var currentTab = GetCurrentTabContent();
+            if (currentTab?.Browser?.CanGoForward == true)
+                currentTab.Browser.Forward();
+        }
+        private void btnReload_Click(object sender, RoutedEventArgs e)
+        {
+            var currentTab = GetCurrentTabContent();
+            currentTab?.Browser.Reload();
+        }
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            var currentTab = GetCurrentTabContent();
+            if (currentTab != null)
+            {
+                currentTab.Browser.Load("https://www.bing.com");
+                currentTab.Url = "https://www.bing.com";
+            }
+        }
+        // Переключение расположения панели инструментов.
+        private void btnTogglePosition_Click(object sender, RoutedEventArgs e)
+        {
+            isToolbarAtBottom = !isToolbarAtBottom;
+            if (isToolbarAtBottom)
+            {
+                // Устанавливаем панель в нижнюю строку.
+                Grid.SetRow(GlobalToolbar, 2);
+                Grid.SetRowSpan(TabControl, 2);
+                RootGrid.RowDefinitions[2].Height = new GridLength(60);
+                RootGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+                // При необходимости можно менять высоту строк: например, фиксированная высота для панели и оставшаяся часть — для контента.
+            }
+            else
+            {
+                // Устанавливаем панель в верхнюю строку.
+                Grid.SetRow(GlobalToolbar, 1);
+                Grid.SetRowSpan(TabControl, 3);
+                RootGrid.RowDefinitions[1].Height = new GridLength(60);
+                RootGrid.RowDefinitions[2].Height = new GridLength(2, GridUnitType.Star);
+            }
+
+            updateCurrentTabMargin();
+        }
+
+
+        /// <summary>
+        /// Custom method for Popup positioning.
+        /// </summary>
+        private CustomPopupPlacement[] PlacePopup(Size popupSize, Size targetSize, Point offset)
+        {
+            double x = -popupSize.Width;
+            double y = 0;
+
+            if (!isToolbarAtBottom)
+            {
+                y = targetSize.Height;
+            }
+            else
+            {
+                y = -popupSize.Height;
+            }
+
+            CustomPopupPlacement placement = new CustomPopupPlacement(new Point(x, y), PopupPrimaryAxis.None);
+            return new CustomPopupPlacement[] { placement };
+        }
+
+        /// <summary>
+        /// Switch app color theme.
+        /// </summary>
+        private void btnSwitchTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+
+            var currentThemeDictionary = mergedDictionaries.FirstOrDefault(dict =>
+                 dict.Contains("IsThemeDictionary") && (bool)dict["IsThemeDictionary"] == true);
+
+            if (currentThemeDictionary != null && currentThemeDictionary.Source != null)
+            {
+                string source = currentThemeDictionary.Source.OriginalString.ToLowerInvariant();
+
+                if (source.EndsWith("darktheme.xaml"))
+                {
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/LightTheme.xaml", UriKind.Relative)
+                    });
+                }
+                else if (source.EndsWith("lighttheme.xaml"))
+                {
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                    });
+                }
+                else
+                {
+                    // Default behavior - Dark Theme
+                    mergedDictionaries.Remove(currentThemeDictionary);
+                    mergedDictionaries.Add(new ResourceDictionary
+                    {
+                        Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                    });
+                }
+            }
+            else
+            {
+                // Default behavior - Dark Theme
+                mergedDictionaries.Add(new ResourceDictionary
+                {
+                    Source = new Uri("/Assets/Themes/DarkTheme.xaml", UriKind.Relative)
+                });
+            }
+        }
+
+        private void btnShowMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // Set custom position for Popup
+            popupMenu.Placement = PlacementMode.Custom;
+            popupMenu.PlacementTarget = btnShowMenu;
+            popupMenu.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(PlacePopup);
+            popupMenu.IsOpen = true;
+        }
+
+        private void updateCurrentTabMargin(TabItem tabItem = null)
+        {
+            TabContent activeTabContent;
+            if (tabItem == null)
+            {
+                activeTabContent = GetCurrentTabContent();
+            }
+            else
+            {
+                activeTabContent = tabItem.Content as TabContent;
+            }
+
+            if (activeTabContent == null)
+            {
+                Debug.WriteLine("Active TabContent is null. Cannot update margin.");
+                return;
+            }
+
+            double topMargin = isToolbarAtBottom ? 0 : GlobalToolbar.ActualHeight;
+            activeTabContent.UpdateContentMargin(topMargin);
         }
     }
 }
