@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace Functional_Browser
 {
@@ -230,6 +231,7 @@ namespace Functional_Browser
                     CreateNewTab();
                 }
                 updateCurrentTabMargin(selectedItem);
+                btnAdBlockSwitch_SetColor(null, selectedItem);
             }
             UpdateGlobalAddressBar();
         }
@@ -532,6 +534,43 @@ namespace Functional_Browser
 
             double topMargin = isToolbarAtBottom ? 0 : GlobalToolbar.ActualHeight;
             activeTabContent.UpdateContentMargin(topMargin);
+        }
+
+        /// <summary>
+        /// Handle click of Ad block button.
+        /// </summary>
+        private void btnAdBlockSwitch_Click(object sender, RoutedEventArgs e)
+        {
+            var currentTab = GetCurrentTabContent();
+
+            currentTab.adBlockEnabled = !currentTab.adBlockEnabled;
+            currentTab.SwitchCustomRequestHandler();
+            btnAdBlockSwitch_SetColor(currentTab);
+
+            currentTab.Browser.Reload();
+        }
+
+        /// <summary>
+        /// Set appropriate color of Ad block button.
+        /// </summary>
+        private void btnAdBlockSwitch_SetColor(TabContent currentTab = null, TabItem currentTabItem = null)
+        {
+            if (currentTabItem != null) {
+                currentTab = currentTabItem.Content as TabContent;
+            }
+            if (currentTab == null)
+            {
+                currentTab = GetCurrentTabContent();
+            }
+
+            if (currentTab.adBlockEnabled)
+            {
+                btnAdBlockIcon.Fill = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                btnAdBlockIcon.Fill = new SolidColorBrush(Colors.IndianRed);
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Functional_Browser
             return true;
         }
 
+        // Other methods left as default
         public void OnAfterCreated(IWebBrowser browserControl, IBrowser browser) { }
         public bool DoClose(IWebBrowser browserControl, IBrowser browser) => false;
         public void OnBeforeClose(IWebBrowser browserControl, IBrowser browser) { }

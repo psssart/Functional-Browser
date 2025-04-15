@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomRequestHandler.cs" />
     <Compile Include="CustomDisplayHandler.cs" />
     <Compile Include="CustomLifeSpanHandler.cs" />
     <Compile Include="TabContent.xaml.cs">

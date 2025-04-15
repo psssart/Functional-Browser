@@ -9,12 +9,16 @@ namespace Functional_Browser
 {
     public partial class TabContent : UserControl
     {
+        public bool adBlockEnabled = true;
+        private CustomRequestHandler customRequestHandler = new CustomRequestHandler();
         public TabContent()
         {
             InitializeComponent();
+            Browser.RequestHandler = customRequestHandler;
             Browser.LifeSpanHandler = new CustomLifeSpanHandler();
             Browser.DisplayHandler = new CustomDisplayHandler();
             Browser.Tag = this;
+
             DependencyPropertyDescriptor.FromProperty(ChromiumWebBrowser.AddressProperty, typeof(ChromiumWebBrowser))
             .AddValueChanged(Browser, Browser_AddressChanged);
         }
@@ -106,6 +110,21 @@ namespace Functional_Browser
         public void UpdateContentMargin(double topMargin)
         {
             ContentGrid.Margin = new Thickness(0, topMargin, 0, 0);
+        }
+
+        /// <summary>
+        /// Method for switching between default and custom RequestHandler with AdBlock.
+        /// </summary>
+        public void SwitchCustomRequestHandler()
+        {
+            if (Browser.RequestHandler != null)
+            {
+                Browser.RequestHandler = null;
+            }
+            else
+            {
+                Browser.RequestHandler = customRequestHandler;
+            }
         }
     }
 }
