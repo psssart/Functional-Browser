@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functional Browser", "Functional Browser\Functional Browser.csproj", "{3E82BBA0-BA19-424C-9102-C6D5DAF3E3F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functional_Browser", "FunctionalBrowser\Functional_Browser.csproj", "{3E82BBA0-BA19-424C-9102-C6D5DAF3E3F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{3E82BBA0-BA19-424C-9102-C6D5DAF3E3F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E82BBA0-BA19-424C-9102-C6D5DAF3E3F7}.Release|x64.ActiveCfg = Release|x64
 		{3E82BBA0-BA19-424C-9102-C6D5DAF3E3F7}.Release|x64.Build.0 = Release|x64
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D19B30B5-85E1-4450-8B92-630F4BDC5A6A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
